@@ -1,0 +1,42 @@
+.data-table{
+  width:100%;
+}
+.icon-button{
+  min-width:40px!important;
+  padding: 0 8px !important;
+  
+}
+.mat-column-actions{
+ min-width:160px;
+}
+.search-form-field{
+ padding-left:2%;
+ padding-right:2%; 
+ width: 96%;
+ 
+}
+.menu-button{
+  margin-left:2%;
+  width:47%;
+  margin-bottom:1.25em;
+  margin-top:1.25em;
+
+}
+
+.mat-header-row{
+  background-color:  rgba(104, 58, 183, 0.278);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: rgba(104, 58, 183);
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color:rgba(104, 58, 183);
+}
+
+.mat-row:nth-child(even){
+  background-color:white;
+  }
+
+.mat-row:nth-child(odd){
+  background-color:  rgba(104, 58, 183, 0.055);
+  }

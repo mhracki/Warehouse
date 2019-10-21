@@ -1,0 +1,140 @@
+<mat-toolbar >
+  <span class="toolbar-text">{{title}}</span> <button class="exit-button" mat-raised-button color="warn" (click)="onClose()"><mat-icon>close</mat-icon> </button>
+</mat-toolbar>
+
+<form #form="ngForm" *ngIf="service.formData" (submit)="onSubmit(ngForm)">
+  <div class="container margin-center">
+    <div class="margin-center">
+      <mat-form-field class="example-form-field invisible">
+        <input
+          type="text"
+          
+          #itemID="ngModel"
+          name="itemID"
+          matInput
+          [(ngModel)]="service.formData.itemID"
+        />
+      </mat-form-field>
+    </div>
+    <div class="margin-center">
+      <mat-form-field class="example-form-field ">
+        <input
+          type="text"
+          required
+          #itemName="ngModel"
+          name="itemName"
+          matInput
+          placeholder="Item Name"
+          [(ngModel)]="service.formData.itemName"
+        />
+      </mat-form-field>
+    </div>
+    <div class="margin-center">
+      <mat-form-field class="example-form-field ">
+        <input
+          type="number"
+          required
+          #quantity="ngModel"
+          name="quantity"
+          matInput
+          placeholder="Quantity"
+          [(ngModel)]="service.formData.quantity"
+        />
+      </mat-form-field>
+    </div>
+    <div class="margin-center">
+      <mat-form-field class="example-form-field ">
+        <input
+          type="text"
+          #warehouse="ngModel"
+          name="warehouse"
+          matInput
+          placeholder="Warehouse"
+          [(ngModel)]="service.formData.warehouse"
+        />
+      </mat-form-field>
+    </div>
+    <div class="margin-center">
+      <mat-form-field class="example-form-field ">
+        <input
+          type="text"
+          #room="ngModel"
+          name="room"
+          matInput
+          placeholder="Room"
+          [(ngModel)]="service.formData.room"
+        />
+      </mat-form-field>
+    </div>
+    <div class="margin-center">
+      <mat-form-field class="example-form-field ">
+        <input
+          type="text"
+          #column="ngModel"
+          name="column"
+          matInput
+          placeholder="Column"
+          [(ngModel)]="service.formData.column"
+        />
+      </mat-form-field>
+    </div><div class="margin-center">
+      <mat-form-field class="example-form-field ">
+        <input
+          type="text"
+          #rack="ngModel"
+          name="rack"
+          matInput
+          placeholder="Rack"
+          [(ngModel)]="service.formData.rack"
+        />
+      </mat-form-field>
+    </div>
+    <div class="margin-center">
+      <mat-form-field class="example-form-field ">
+        <input
+          type="text"
+          #side="ngModel"
+          name="side"
+          matInput
+          placeholder="Side"
+          [(ngModel)]="service.formData.side"
+        />
+      </mat-form-field>
+    </div>
+    <div class="margin-center">
+      <mat-form-field class="example-form-field ">
+        <input
+          type="text"
+          #shelf="ngModel"
+          name="shelf"
+          matInput
+          placeholder="Shelf"
+          [(ngModel)]="service.formData.shelf"
+        />
+      </mat-form-field>
+    </div>
+    <div class="margin-center">
+      <mat-form-field class="example-form-field ">
+        <input
+          type="text"
+          #place="ngModel"
+          name="place"
+          matInput
+          placeholder="Place"
+          [(ngModel)]="service.formData.place"
+        />
+      </mat-form-field>
+    </div>
+    <div class="example-button-row flex">
+      <button class="mr5" mat-raised-button color="primary" type="submit">
+        Submit
+      </button>
+      <button  class="mr5" mat-raised-button color="warn" (click)="onClear()" type="button">
+        Clear <mat-icon>delete_sweep</mat-icon>
+      </button>
+      <button class="mr5" mat-icon-button color="warn" (click)="onClose()" type="button">
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,29 @@
+<form #form="ngForm" (submit)="onSubmit(form)" >
+ <div class="container margin-center">
+    <div class="margin-center">
+        <mat-form-field class="example-form-field ">
+            <input  type="text" #UserName="ngModel" name="UserName" matInput placeholder="Login" [(ngModel)]="user.login">
+            <button mat-button *ngIf="user.login" matSuffix mat-icon-button aria-label="Clear" (click)="user.login=''">
+            <mat-icon>close</mat-icon>
+            </button>
+       </mat-form-field></div>
+        
+      
+       <div class="margin-center">
+        <mat-form-field class="example-form-field ">
+          
+          <input type="password" #Password="ngModel" name="Password" matInput placeholder="Password" [(ngModel)]="user.password">
+          <button mat-button *ngIf="user.password" matSuffix mat-icon-button aria-label="Clear" (click)="user.password=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          
+        </mat-form-field>
+     </div>
+
+      <button mat-raised-button color="primary" type="submit">Log in</button>
+ </div>
+   
+
+
+</form>
+<router-outlet></router-outlet>

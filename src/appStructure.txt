@@ -1,0 +1,26 @@
+● src
++---● app
+|   +--● login 
+|   |  |--login.component.ts|.html|.css
+|   +--● warehouse
+|   |  |  |--warehouse.component.ts|.html|.css
+|   |  +--● item
+|   |  |  |--item.component.ts|.html|.css
+|   |  +--● item-list
+|   |  |  |--items-list.component.ts|.html|.css
+|   |  +--● schema
+|   |  |  |--schema.component.ts|.html|.css
+|   +--● shared
+|   |  |--login.service.ts  
+|   |  |--item.service.ts  
+|   +--● material
+|   |  |--material.module.ts
+|   +--● auth
+|   |  |--auth.guard.ts
+|   |
+|   |--app.module.ts
+|
++---● environments  
+|   |--environment.ts (apiUrl)
+|
+|--index.html 

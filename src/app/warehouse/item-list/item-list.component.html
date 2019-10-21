@@ -1,0 +1,105 @@
+<div class="flex center-align flex-wrap">
+        
+
+        <button class="menu-button" mat-raised-button color="primary" (click)="createItem()"><mat-icon>add_box</mat-icon> Dodaj nowy przedmiot </button>
+        <button class="menu-button" mat-raised-button color="secondary" (click)="filterShow()"><mat-icon>add_box</mat-icon> Pokaż ukryj filtry </button>
+        <div *ngIf="disFilter" class="button-wrapper flex flex-wrap center-align" >
+            <mat-form-field  class="search-form-field" floatLabel="never">
+                <mat-icon matPrefix>search</mat-icon> <input type="search"  matInput [(ngModel)]="searchFilter" placeholder="  Search" autocomplete="off" (keyup)="applyFilter()">
+                <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchFilter" (click)="onSearch()">
+                    <mat-icon>close</mat-icon> 
+                </button>
+        </mat-form-field>
+        </div>
+</div>
+<mat-table [dataSource]="listData" matSort class="data-table">
+        <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> ID</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.id}}</mat-cell>
+            </ng-container>
+        <ng-container matColumnDef="itemName" *ngIf="this.disColView[0]">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nazwa</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.itemName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="quantity" *ngIf="this.disColView[1]">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Ilość</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.quantity}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="warehouse" *ngIf="this.disColView[2]">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Magazyn</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.warehouse}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="room" *ngIf="this.disColView[3]">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Pomieszczenie</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.room}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="column" *ngIf="this.disColView[4]">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Rząd</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.column}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="rack" *ngIf="this.disColView[5]">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Regał</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.rack}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="side" *ngIf="this.disColView[6]">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Strona</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.side}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="shelf" *ngIf="this.disColView[7]">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Półka</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.shelf}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="place" *ngIf="this.disColView[8]">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Miejsce</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.place}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="actions" class="actions-column">
+            <mat-header-cell *matHeaderCellDef > Actions</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                    <button class="icon-button" mat-stroked-button (click)="editItem(row)" ><mat-icon color="accent" >edit</mat-icon> </button>
+                    <button class="icon-button" mat-stroked-button (click)="deleteItem(row.id)"><mat-icon  color="warn">delete</mat-icon> </button>
+                    <button class="icon-button" mat-stroked-button (click)="copyElement(row)"><mat-icon>file_copy</mat-icon> </button>
+                    <button class="icon-button" mat-stroked-button ><mat-icon>launch</mat-icon> </button>
+
+
+    
+            </mat-cell>
+
+        </ng-container>
+        
+       
+        <ng-container matColumnDef="loading">
+            <mat-footer-cell *matFooterCellDef colspan="6"> 
+                
+                Loading data...
+            </mat-footer-cell>
+            
+        </ng-container>
+        <ng-container matColumnDef="noData">
+            <mat-footer-cell *matFooterCellDef colspan="6" > 
+                
+                No data context...
+            </mat-footer-cell>
+            
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="disColStr"></mat-header-row>
+        <mat-row *matRowDef="let row; columns : disColStr"></mat-row>
+        <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide-icon':listData!=null}"></mat-footer-row>
+        <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide-icon':!(listData!=null && listData.data.length==0)}"></mat-footer-row> >
+</mat-table>
+        <mat-paginator [length]="resultsLength" [pageSize]="itemOnPage" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        <div class="button-wrapper flex center-align flex-wrap">
+                <label> Dodaj / usuń kolumny </label>
+                
+                <button class="mr5" mat-stroked-button color="basic" (click)="showOrHide(0)"><mat-icon color="primary" [ngClass]="{'hide-icon':this.disColView[0]}">add_circle</mat-icon> Nazwa <mat-icon color="warn" [ngClass]="{'hide-icon':!this.disColView[0]}">cancel</mat-icon></button>
+                <button class="mr5" mat-stroked-button color="basic" (click)="showOrHide(1)"><mat-icon color="primary" [ngClass]="{'hide-icon':this.disColView[1]}">add_circle</mat-icon> Ilość <mat-icon color="warn" [ngClass]="{'hide-icon':!this.disColView[1]}">cancel</mat-icon></button>
+                <button class="mr5" mat-stroked-button color="basic" (click)="showOrHide(2)"><mat-icon color="primary" [ngClass]="{'hide-icon':this.disColView[2]}">add_circle</mat-icon> Magazyn <mat-icon color="warn" [ngClass]="{'hide-icon':!this.disColView[2]}">cancel</mat-icon> </button>
+                <button class="mr5" mat-stroked-button color="basic" (click)="showOrHide(3)"><mat-icon color="primary" [ngClass]="{'hide-icon':this.disColView[3]}">add_circle</mat-icon> Pomieszczenie <mat-icon color="warn" [ngClass]="{'hide-icon':!this.disColView[3]}">cancel</mat-icon></button>
+                <button class="mr5" mat-stroked-button color="basic" (click)="showOrHide(4)"><mat-icon color="primary" [ngClass]="{'hide-icon':this.disColView[4]}">add_circle</mat-icon> Rząd <mat-icon color="warn" [ngClass]="{'hide-icon':!this.disColView[4]}">cancel</mat-icon></button>
+                <button class="mr5" mat-stroked-button color="basic" (click)="showOrHide(5)"><mat-icon color="primary" [ngClass]="{'hide-icon':this.disColView[5]}">add_circle</mat-icon> Regał <mat-icon color="warn" [ngClass]="{'hide-icon':!this.disColView[5]}">cancel</mat-icon></button>
+                <button class="mr5" mat-stroked-button color="basic" (click)="showOrHide(6)"><mat-icon color="primary" [ngClass]="{'hide-icon':this.disColView[6]}">add_circle</mat-icon> Strona <mat-icon color="warn" [ngClass]="{'hide-icon':!this.disColView[6]}">cancel</mat-icon></button>
+                <button class="mr5" mat-stroked-button color="basic" (click)="showOrHide(7)"><mat-icon color="primary" [ngClass]="{'hide-icon':this.disColView[7]}">add_circle</mat-icon> Półka <mat-icon color="warn" [ngClass]="{'hide-icon':!this.disColView[7]}">cancel</mat-icon></button>
+                <button class="mr5" mat-stroked-button color="basic" (click)="showOrHide(8)"><mat-icon color="primary" [ngClass]="{'hide-icon':this.disColView[8]}">add_circle</mat-icon> Miejsce <mat-icon color="warn" [ngClass]="{'hide-icon':!this.disColView[8]}">cancel</mat-icon></button>
+        
+        </div>
+      
