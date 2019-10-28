@@ -200,13 +200,46 @@ console.log(this.listData);
       id: null,
       itemName: "",
       quantity: null,
-      warehouse: "",
-      room:"",
-      column:"",
-      rack: "",
-      side:"",
-      shelf: "",
-      place: "",
+      warehouseId:"",
+      warehouse: {
+        id:"",
+        name:""
+      },
+      roomId: "",
+      room:{
+        id:"",
+        name:"",
+        warehouseId:""
+      },
+      columnId:"",
+      column:{
+        id:"",
+        name:"",
+        roomId:""
+      },
+      rackId:"",
+      rack: {
+        id:"",
+        name:"",
+        side:null,
+        columnID:""
+
+      },
+      side:null,
+      shelfId:"",
+      shelf: {
+        id:"",
+        name:"",
+        rackId:""
+        
+      },
+      placeId:"",
+      place: {
+        id:"",
+        name:"",
+        shelfId:""
+        
+      },
     };
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;

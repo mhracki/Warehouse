@@ -4,6 +4,12 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { MatTableDataSource,MatSort,MatPaginator,} from "@angular/material";
 import { sanitizeIdentifier } from '@angular/compiler';
+import { Warehouse } from './models/warehouse.model';
+import { Room } from './models/room.model';
+import { Column } from './models/column.model';
+import { Rack } from './models/rack.model';
+import { Shelf } from './models/shelf.model';
+import { Place } from './models/place.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +18,13 @@ export class ItemService {
   formData:Item;
   itemList: Item[] ;
   dataTable:MatTableDataSource<any>;
+  warehouseList:Warehouse[];
+  roomList:Room[];
+  columnList:Column[];
+  rackList:Rack[];
+  shelfList:Shelf[];
+  placeList:Place[];
+  
 
   
   constructor(private http:HttpClient) { }
@@ -20,17 +33,54 @@ export class ItemService {
 
   postNewItem(){
     console.log(this.formData);
-      
+    delete  this.formData.id
     return this.http.post(`${environment.apiWarehouseURL}/item`,this.formData)
   }
 
   getItemList(){
     return this.http.get(`${environment.apiWarehouseURL}/list`).toPromise();
   }
+  getWarehouseList(){
+     this.http.get(`${environment.apiWarehouseURL}/warehouse`).toPromise().then(
+       res=> {return this.warehouseList = res as Warehouse[]}
+     );
+     
+  }
+  getRoomList(id){
+    this.http.get(`${environment.apiWarehouseURL}/room/${id}`).toPromise().then(
+      res=> {return this.roomList = res as Room[]}
+    );
+    
+ }
+ getColumnList(id){
+  this.http.get(`${environment.apiWarehouseURL}/column/${id}`).toPromise().then(
+    res=> {return this.columnList = res as Column[]}
+  );
+  
+}
+getRackList(id){
+  this.http.get(`${environment.apiWarehouseURL}/rack/${id}`).toPromise().then(
+    res=> {return this.rackList = res as Rack[]}
+  );
+  
+}
+getShelfList(id){
+  this.http.get(`${environment.apiWarehouseURL}/shelf/${id}`).toPromise().then(
+    res=> {return this.shelfList = res as Shelf[]}
+  );
+  
+}
+getPlaceList(id){
+  this.http.get(`${environment.apiWarehouseURL}/place/${id}`).toPromise().then(
+    res=> {return this.placeList = res as Place[]}
+  );
+  
+}
 
   refreshList(){
     return this.getItemList().then( res=>{ return this.itemList = res as Item[]})
   }
+  
   getMaterial(itemsList){
     
     
@@ -50,12 +100,18 @@ export class ItemService {
       itemName: item.itemName,
       quantity: item.quantity,
       warehouse: item.warehouse,
-      room:item.side,
+      warehouseId: item.warehouseId,
+      room:item.room,
+      roomId:item.roomId,
       column:item.column,
+      columnId:item.columnId,
       rack: item.rack,
+      rackId:item.rackId,
       side: item.side,
       shelf: item.shelf,
-      place: item.place
+      shelfId:item.shelfId,
+      place: item.place,
+      placeId:item.placeId
     };
   }
   editItem(item:Item){

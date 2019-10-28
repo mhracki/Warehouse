@@ -27,31 +27,31 @@
         </ng-container>
         <ng-container matColumnDef="warehouse" *ngIf="this.disColView[2]">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Magazyn</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.warehouse}}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.warehouse.name}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="room" *ngIf="this.disColView[3]">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Pomieszczenie</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.room}}</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.room.name}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="column" *ngIf="this.disColView[4]">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Rząd</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.column}}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.column.name}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="rack" *ngIf="this.disColView[5]">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Regał</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.rack}}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.rack.name}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="side" *ngIf="this.disColView[6]">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Strona</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.side}}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.rack.side}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="shelf" *ngIf="this.disColView[7]">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Półka</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.shelf}}</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.shelf.name}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="place" *ngIf="this.disColView[8]">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Miejsce</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.place}}</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.place.name}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="actions" class="actions-column">
             <mat-header-cell *matHeaderCellDef > Actions</mat-header-cell>

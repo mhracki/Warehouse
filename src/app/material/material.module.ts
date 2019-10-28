@@ -17,7 +17,8 @@ import * as Material from '@angular/material'
     Material.MatPaginatorModule,
     Material.MatProgressSpinnerModule,
     Material.MatSortModule,
-    Material.MatDialogModule
+    Material.MatDialogModule,
+    Material.MatSelectModule
     
   ],
   exports: [
@@ -30,7 +31,9 @@ import * as Material from '@angular/material'
     Material.MatPaginatorModule,
     Material.MatProgressSpinnerModule,
     Material.MatSortModule,
-    Material.MatDialogModule
+    Material.MatDialogModule,
+    Material.MatSelectModule
+
 
 
     
