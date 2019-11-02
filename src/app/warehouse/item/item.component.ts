@@ -25,18 +25,22 @@ export class ItemComponent implements OnInit {
     if(this.service.formData.id===null){
       this.title="New Item";
       if(this.service.formData.itemName!==""){
-
         this.title="Copy Item"
-        
-        
+        this.initializeSelects()
       }
     }
     else{
       this.title="Edit Item"
+      this.initializeSelects()
     }
-    
-    
- 
+  }
+
+  initializeSelects(){
+    this.service.getRoomList(this.service.formData.warehouseId);
+    this.service.getColumnList(this.service.formData.roomId);
+    this.service.getRackList(this.service.formData.columnId);
+    this.service.getShelfList(this.service.formData.rackId);
+    this.service.getPlaceList(this.service.formData.shelfId);
   }
 
 
@@ -45,12 +49,8 @@ export class ItemComponent implements OnInit {
   onSubmit(){
     console.log(this.service.formData);
     if (this.service.formData.id===null){
-      
       //this.service.formData.id="00000000-0000-0000-0000-000000000asd";
-
-
       this.service.postNewItem().subscribe( (res:any)=>{
-        console.log(res);
         //this.dialogRef.afterClosed()
         this.dialogRef.close();
         this.service.refreshList();
@@ -121,14 +121,10 @@ export class ItemComponent implements OnInit {
     };
   }
   getRoom(id){
-    
-    
       this.service.getRoomList(id);
+      console.log(this.service.roomList);
+      
       this.service.formData.warehouse=this.service.warehouseList.find(x=>x.id===id)
-               
-       
-       
-       
   }
   getColumn(id){
       this.service.getColumnList(id);
@@ -137,28 +133,23 @@ export class ItemComponent implements OnInit {
   getRack(id){
     this.service.getRackList(id);
     this.service.formData.column=this.service.columnList.find(x=>x.id===id)
-    console.log(this.service.formData);
+  
 
 }
 getShelf(id){
   this.service.getShelfList(id);
-  this.service.formData.rackId=id;
-  console.log(this.service.formData);
-
+  this.service.formData.rack=this.service.rackList.find(x=>x.id===id)
 }
 getPlace(id){
   this.service.getPlaceList(id);
-  this.service.formData.shelfId=id;
+  this.service.formData.shelf=this.service.shelfList.find(x=>x.id===id)
 
 }
 placeId(id){
-  this.service.formData.placeId=id;
+  this.service.formData.place=this.service.placeList.find(x=>x.id===id)
 
 }
 test(item){
-  console.log(item,"iem");
-  
-  
   console.log(this.service.formData.warehouse,"serwis");
   
 }

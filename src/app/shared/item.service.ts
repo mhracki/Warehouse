@@ -53,7 +53,7 @@ export class ItemService {
     
  }
  getColumnList(id){
-  this.http.get(`${environment.apiWarehouseURL}/column/${id}`).toPromise().then(
+ this.http.get(`${environment.apiWarehouseURL}/column/${id}`).toPromise().then(
     res=> {return this.columnList = res as Column[]}
   );
   

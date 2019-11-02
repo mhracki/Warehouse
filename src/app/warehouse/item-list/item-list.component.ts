@@ -15,6 +15,7 @@ import {
 import { Item } from "src/app/shared/item.model";
 import { displayedColumn } from "src/app/shared/displayedColumn.model";
 import { ItemComponent } from "../item/item.component";
+import { SchemaComponent } from '../schema/schema.component';
 
 @Component({
   selector: "app-item-list",
@@ -137,14 +138,17 @@ console.log(this.listData);
 
       this.listData.paginator = this.paginator;
       this.listData.filterPredicate = (data, filter) => {
-        return this.disColStr.some(ele => {
-          console.log(ele)
-          console.log(data[ele]);
-          //debugger;
-          return (
-            ele != "actions" &&data[ele]&& data[ele].indexOf(filter) != -1
-          );
-        });
+       return data.itemName.indexOf(filter) !=-1;
+        
+        
+        // return data.some(ele => {
+        //   console.log(ele)
+        //   console.log(data[ele]);
+        //   //debugger;
+        //   return (
+        //     ele != "actions" &&data[ele]&& data[ele].indexOf(filter) != -1
+        //   );
+        // });
       };
     });
   }
@@ -278,6 +282,13 @@ console.log(this.listData);
     this.matDialog.open(ItemComponent, dialogConfig).afterClosed().subscribe(()=>this.refreshMatTable());
     
 
+  }
+  drawSchema(item:Item) {
+    this.service.formData=item;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = "90%";
+    dialogConfig.data=item;    
+    this.matDialog.open(SchemaComponent, dialogConfig,);
   }
 
 // }
