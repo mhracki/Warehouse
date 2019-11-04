@@ -1,8 +1,27 @@
 <mat-toolbar >
-        <span class="toolbar-text">{{title}}heehu</span> <button class="exit-button" mat-raised-button color="warn" (click)="onClose()"><mat-icon>close</mat-icon> </button>
-      </mat-toolbar>
+  <div class="flex toolbar">
+      <span class="toolbar-text">
+          Magazyn:{{ service.formData.warehouse.name }} Pokój:{{
+           service.formData.room.name
+         }} Rząd:{{service.formData.column.name}}  </span
+        > 
+        <span *ngIf="service.formData.rack.name" class="toolbar-text">&nbsp;Regał:{{service.formData.rack.name}}</span>
+        <span *ngIf="service.formData.shelf.name" class="toolbar-text">&nbsp;Półka:{{service.formData.shelf.name}}</span>
+        <span class="toolbar-text">&nbsp;Miejsce:{{service.formData.place.name}}</span>
+
+  </div>
+   
+  
+  
+  <button
+    class="exit-button"
+    mat-raised-button
+    color="warn"
+    (click)="onClose()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
 <div class="wrap flex center " #schemaWrapper>
-    
-<canvas class="schema" #schema></canvas>
-    
+  <canvas class="schema" #schema></canvas>
 </div>

@@ -287,6 +287,7 @@ console.log(this.listData);
     this.service.formData=item;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = "90%";
+    dialogConfig.height = "80%";
     dialogConfig.data=item;    
     this.matDialog.open(SchemaComponent, dialogConfig,);
   }

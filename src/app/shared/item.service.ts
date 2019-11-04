@@ -40,38 +40,38 @@ export class ItemService {
   getItemList(){
     return this.http.get(`${environment.apiWarehouseURL}/list`).toPromise();
   }
-  getWarehouseList(){
-     this.http.get(`${environment.apiWarehouseURL}/warehouse`).toPromise().then(
+  async getWarehouseList(){
+     await this.http.get(`${environment.apiWarehouseURL}/warehouse`).toPromise().then(
        res=> {return this.warehouseList = res as Warehouse[]}
      );
      
   }
-  getRoomList(id){
-    this.http.get(`${environment.apiWarehouseURL}/room/${id}`).toPromise().then(
+  async getRoomList(id){
+     await this.http.get(`${environment.apiWarehouseURL}/room/${id}`).toPromise().then(
       res=> {return this.roomList = res as Room[]}
     );
     
  }
- getColumnList(id){
- this.http.get(`${environment.apiWarehouseURL}/column/${id}`).toPromise().then(
+  async getColumnList(id){
+    await this.http.get(`${environment.apiWarehouseURL}/column/${id}`).toPromise().then(
     res=> {return this.columnList = res as Column[]}
   );
   
 }
-getRackList(id){
-  this.http.get(`${environment.apiWarehouseURL}/rack/${id}`).toPromise().then(
-    res=> {return this.rackList = res as Rack[]}
+async getRackList(id){
+   await this.http.get(`${environment.apiWarehouseURL}/rack/${id}`).toPromise().then(
+    res=> {return this.rackList = res as Rack[];}
   );
   
 }
-getShelfList(id){
-  this.http.get(`${environment.apiWarehouseURL}/shelf/${id}`).toPromise().then(
+async getShelfList(id){
+  await this.http.get(`${environment.apiWarehouseURL}/shelf/${id}`).toPromise().then(
     res=> {return this.shelfList = res as Shelf[]}
   );
   
 }
-getPlaceList(id){
-  this.http.get(`${environment.apiWarehouseURL}/place/${id}`).toPromise().then(
+async getPlaceList(id){
+  await this.http.get(`${environment.apiWarehouseURL}/place/${id}`).toPromise().then(
     res=> {return this.placeList = res as Place[]}
   );
   

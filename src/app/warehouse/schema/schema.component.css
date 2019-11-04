@@ -1,0 +1,28 @@
+.exit-button {
+  margin-left: auto;
+  min-width: 40px !important;
+  padding: 0 8px !important;
+}
+
+.toolbar {
+  font-size: 20px;
+}
+
+@media (max-width: 900px) {
+  .toolbar {
+    font-size: 14px !important;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 700px) {
+  .toolbar {
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 550px) {
+  .toolbar {
+    font-size: 9px !important;
+  }
+}
