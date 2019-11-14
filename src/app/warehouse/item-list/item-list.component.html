@@ -43,7 +43,7 @@
         </ng-container>
         <ng-container matColumnDef="side" *ngIf="this.disColView[6]">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Strona</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.rack.side}}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.side.name}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="shelf" *ngIf="this.disColView[7]">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Półka</mat-header-cell>

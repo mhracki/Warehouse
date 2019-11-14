@@ -1,4 +1,4 @@
-export class Warehouse{
-    id:string;
-    name:string;
+export class Warehouse {
+    id: string;
+    name: string;
 }

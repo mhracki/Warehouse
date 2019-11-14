@@ -1,6 +1,5 @@
-export class Rack{
-    id:string;
-    name:string;
-    side:boolean;
-    columnID:string;
+export class Rack {
+    id: string;
+    name: string;
+    columnID: string;
 }

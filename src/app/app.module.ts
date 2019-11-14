@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {ReactiveFormsModule,FormsModule} from '@angular/forms';
-import { HttpClientModule } from "@angular/common/http";
+import {ReactiveFormsModule, FormsModule} from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +15,7 @@ import { ItemComponent } from './warehouse/item/item.component';
 import { ItemListComponent } from './warehouse/item-list/item-list.component';
 import { ItemService } from './shared/item.service';
 import { SchemaComponent } from './warehouse/schema/schema.component';
+import { WarehouseManagementComponent } from './warehouse/warehouse-management/warehouse-management.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SchemaComponent } from './warehouse/schema/schema.component';
     WarehouseComponent,
     ItemComponent,
     ItemListComponent,
-    SchemaComponent
+    SchemaComponent,
+    WarehouseManagementComponent
   ],
   imports: [
     BrowserModule,
@@ -35,8 +37,8 @@ import { SchemaComponent } from './warehouse/schema/schema.component';
     HttpClientModule,
     LayoutModule
   ],
-  providers: [LoginService,ItemService],
+  providers: [LoginService, ItemService],
   bootstrap: [AppComponent],
-  entryComponents:[ItemComponent]
+  entryComponents: [ItemComponent]
 })
 export class AppModule { }

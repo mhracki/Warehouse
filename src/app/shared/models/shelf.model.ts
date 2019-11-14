@@ -1,5 +1,5 @@
-export class Shelf{
-    id:string;
-    name:string;
-    rackId:string;
+export class Shelf {
+    id: string;
+    name: string;
+    sideId: string;
 }

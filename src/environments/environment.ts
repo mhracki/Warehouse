@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUserURL:'http://localhost:63426/api/ApplicationUser/Login',
-  apiWarehouseURL:'http://localhost:63426/api/Warehouse'
+  apiUserURL: 'http://localhost:63426/api/ApplicationUser/Login',
+  apiWarehouseURL: 'http://localhost:63426/api/Warehouse'
 };
 
 /*

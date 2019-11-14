@@ -2,7 +2,7 @@
   <span class="toolbar-text">{{title}}</span> <button class="exit-button" mat-raised-button color="warn" (click)="onClose()"><mat-icon>close</mat-icon> </button>
 </mat-toolbar>
 
-<form #form="ngForm" *ngIf="service.formData" (submit)="onSubmit(ngForm)">
+<form #form="ngForm" *ngIf="itemService.formData" (submit)="onSubmit(ngForm)">
   <div class="container margin-center">
     <div class="margin-center">
      
@@ -16,7 +16,7 @@
           name="itemName"
           matInput
           placeholder="Item Name"
-          [(ngModel)]="service.formData.itemName"
+          [(ngModel)]="itemService.formData.itemName"
         />
       </mat-form-field>
     </div>
@@ -29,14 +29,14 @@
           name="quantity"
           matInput
           placeholder="Quantity"
-          [(ngModel)]="service.formData.quantity"
+          [(ngModel)]="itemService.formData.quantity"
         />
       </mat-form-field>
     </div>
     <div class="margin-center">
       <mat-form-field class="example-form-field ">
           <mat-label>Magazyn</mat-label>
-          <mat-select   #warehouseId="ngModel" name="warehouseId"   [(ngModel)]="service.formData.warehouseId">
+          <mat-select   #warehouseId="ngModel" name="warehouseId"   [(ngModel)]="itemService.formData.warehouseId">
             <mat-option *ngFor="let item of service.warehouseList" (click)="getRoom(item.id); test(item)" [value]="item.id">{{item.name}}</mat-option>
           </mat-select>
       </mat-form-field>
@@ -44,7 +44,7 @@
     <div class="margin-center">
       <mat-form-field class="example-form-field ">
           <mat-label>Pomieszczenie</mat-label>
-          <mat-select   #roomId="ngModel" name="roomId" [(ngModel)]="service.formData.roomId">
+          <mat-select   #roomId="ngModel" name="roomId" [(ngModel)]="itemService.formData.roomId">
             <mat-option *ngFor="let item of service.roomList" [value]="item.id" (click)="getColumn(item.id)">{{item.name}}</mat-option>
            
           </mat-select>
@@ -53,7 +53,7 @@
     <div class="margin-center">
       <mat-form-field class="example-form-field ">
           <mat-label>Rząd</mat-label>
-          <mat-select  #columnId="ngModel" name="columnId" [(ngModel)]="service.formData.columnId">
+          <mat-select  #columnId="ngModel" name="columnId" [(ngModel)]="itemService.formData.columnId">
             <mat-option *ngFor="let item of service.columnList" [value]="item.id" (click)="getRack(item.id)">{{item.name}}</mat-option>
 
           </mat-select>
@@ -61,8 +61,8 @@
     </div><div class="margin-center">
       <mat-form-field class="example-form-field ">
           <mat-label>Regał</mat-label>
-          <mat-select  #rackId="ngModel" name="rackId" [(ngModel)]="service.formData.rackId">
-            <mat-option *ngFor="let item of service.rackList" [value]="item.id" (click)="getShelf(item.id)">{{item.name}}</mat-option>
+          <mat-select  #rackId="ngModel" name="rackId" [(ngModel)]="itemService.formData.rackId">
+            <mat-option *ngFor="let item of service.rackList" [value]="item.id" (click)="getSide(item.id)">{{item.name}}</mat-option>
 
           </mat-select>
       </mat-form-field>
@@ -70,8 +70,8 @@
     <div class="margin-center">
       <mat-form-field class="example-form-field ">
           <mat-label>Strona</mat-label>
-          <mat-select  #side="ngModel" name="side" [(ngModel)]="service.formData.side">
-            <mat-option *ngFor="let item of service.rackList" [value]="item.side" >{{item.side}}</mat-option>
+          <mat-select  #sideId="ngModel" name="sideId" [(ngModel)]="itemService.formData.sideId">
+            <mat-option *ngFor="let item of service.sideList" [value]="item.id" (click)="getShelf(item.id)" >{{item.name}}</mat-option>
 
           </mat-select>
       </mat-form-field>
@@ -79,7 +79,7 @@
     <div class="margin-center">
       <mat-form-field class="example-form-field ">
           <mat-label>Półka</mat-label>
-          <mat-select   #shelfId="ngModel" name="shelfId" [(ngModel)]="service.formData.shelfId">
+          <mat-select   #shelfId="ngModel" name="shelfId" [(ngModel)]="itemService.formData.shelfId">
             <mat-option *ngFor="let item of service.shelfList" [value]="item.id" (click)="getPlace(item.id)">{{item.name}}</mat-option>
 
           </mat-select>
@@ -88,12 +88,13 @@
     <div class="margin-center">
       <mat-form-field class="example-form-field ">
           <mat-label>Miejsce</mat-label>
-          <mat-select   #placeId="ngModel" name="placeId" [(ngModel)]="service.formData.placeId">
-            <mat-option *ngFor="let item of service.placeList" [value]="item.id" (click)="placeId(item.id)">{{item.name}}</mat-option>
+          <mat-select   #placeId="ngModel" name="placeId" [(ngModel)]="itemService.formData.placeId">
+            <mat-option *ngFor="let item of service.placeList" [value]="item.id" (click)="setPlace(item.id)">{{item.name}}</mat-option>
 
-            </mat-select>
+          </mat-select>
       </mat-form-field>
     </div>
+
     <div class="example-button-row flex">
       <button class="mr5" mat-raised-button color="primary" type="submit">
         Submit

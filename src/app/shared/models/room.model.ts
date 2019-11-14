@@ -1,5 +1,5 @@
-export class Room{
-    id:string;
-    name:string;
-    warehouseId:string;
+export class Room {
+    id: string;
+    name: string;
+    warehouseId: string;
 }

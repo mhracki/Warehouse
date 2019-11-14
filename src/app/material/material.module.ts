@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import * as Material from '@angular/material'
+import * as Material from '@angular/material';
 
 
 
@@ -18,8 +18,9 @@ import * as Material from '@angular/material'
     Material.MatProgressSpinnerModule,
     Material.MatSortModule,
     Material.MatDialogModule,
-    Material.MatSelectModule
-    
+    Material.MatSelectModule,
+    Material.MatStepperModule
+
   ],
   exports: [
     Material.MatToolbarModule,
@@ -32,11 +33,12 @@ import * as Material from '@angular/material'
     Material.MatProgressSpinnerModule,
     Material.MatSortModule,
     Material.MatDialogModule,
-    Material.MatSelectModule
+    Material.MatSelectModule,
+    Material.MatStepperModule
 
 
 
-    
+
 
 
 
