@@ -44,7 +44,7 @@
     <div class="margin-center">
       <mat-form-field class="example-form-field ">
           <mat-label>Pomieszczenie</mat-label>
-          <mat-select   #roomId="ngModel" name="roomId" [(ngModel)]="itemService.formData.roomId">
+          <mat-select  #roomId="ngModel" name="roomId" [(ngModel)]="itemService.formData.roomId">
             <mat-option *ngFor="let item of service.roomList" [value]="item.id" (click)="getColumn(item.id)">{{item.name}}</mat-option>
            
           </mat-select>

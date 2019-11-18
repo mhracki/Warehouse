@@ -61,4 +61,16 @@ body {
   height: 500px;
   border: solid 1px;
 }
+.fd-column{
+  flex-direction: column;
+}
+.fd-row{
+  flex-direction: row;
+}
+.spacer{
+  flex: 1 1 auto;
+}
+.dis-block{
+  display: block;
+}
 

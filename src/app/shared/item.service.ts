@@ -18,13 +18,7 @@ export class ItemService {
   formData: Item;
   itemList: Item[];
   dataTable: MatTableDataSource<any>;
-  warehouseList: Warehouse[];
-  roomList: Room[];
-  columnList: Column[];
-  rackList: Rack[];
-  sideList: Side[];
-  shelfList: Shelf[];
-  placeList: Place[];
+
 
   constructor(private http: HttpClient) {}
 

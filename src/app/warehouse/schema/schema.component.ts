@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ItemService } from 'src/app/shared/item.service';
+import { WarehouseService } from 'src/app/shared/warehouse.service';
+
 import { MatDialogRef } from '@angular/material';
 @Component({
   selector: 'app-schema',
@@ -14,6 +16,7 @@ export class SchemaComponent implements OnInit {
 
   constructor(
     private service: ItemService,
+    private WHService: WarehouseService,
     private dialogRef: MatDialogRef<SchemaComponent>,
     private el: ElementRef
   ) {}
@@ -23,10 +26,10 @@ export class SchemaComponent implements OnInit {
   placeQuantity: number;
 
   async ngOnInit() {
-    await this.service.getRoomList(this.service.formData.warehouseId);
-    await this.service.getColumnList(this.service.formData.roomId);
-    await this.service.getRackList(this.service.formData.columnId);
-    await this.service.getPlaceList(this.service.formData.shelfId);
+    await this.WHService.getRoomList(this.service.formData.warehouseId);
+    await this.WHService.getColumnList(this.service.formData.roomId);
+    await this.WHService.getRackList(this.service.formData.columnId);
+    await this.WHService.getPlaceList(this.service.formData.shelfId);
     this.longestColumn();
     this.getWarehouseData();
 
@@ -44,10 +47,10 @@ export class SchemaComponent implements OnInit {
   async longestColumn() {
     const longestColumn: number[] = [];
 
-    for (let index = 0; index < this.service.columnList.length; index++) {
-      console.log('asdasd', this.service.columnList[index].id);
-      await this.service.getRackList(this.service.columnList[index].id);
-      longestColumn[index] = this.service.rackList.length;
+    for (let index = 0; index < this.WHService.columnList.length; index++) {
+      console.log('asdasd', this.WHService.columnList[index].id);
+      await this.WHService.getRackList(this.WHService.columnList[index].id);
+      longestColumn[index] = this.WHService.rackList.length;
     }
 
     this.rackQuantity = Math.max(...longestColumn);
@@ -55,11 +58,11 @@ export class SchemaComponent implements OnInit {
     await this.drawSchema();
   }
   getWarehouseData() {
-    this.columnQuantity = this.service.columnList.length;
-    this.placeQuantity = this.service.placeList.length;
+    this.columnQuantity = this.WHService.columnList.length;
+    this.placeQuantity = this.WHService.placeList.length;
     console.log(this.columnQuantity);
   }
-  drawbox(a, b, startX, startY, sideRackWidth) {
+  drawBox(a, b, startX, startY, sideRackWidth) {
     this.ctx.fillRect(startX, startY, a, b);
     this.ctx.fillStyle = 'black';
     this.ctx.lineWidth = sideRackWidth / 2 / 20;
@@ -94,25 +97,25 @@ export class SchemaComponent implements OnInit {
     let rackWidth = 0;
 
     for (let j = 0; j < this.columnQuantity; j++) {
-      const columnId = this.service.columnList[j].id;
-      await this.service.getRackList(columnId);
+      const columnId = this.WHService.columnList[j].id;
+      await this.WHService.getRackList(columnId);
 
       rackWidth = 0;
-      this.rackQuantity = this.service.rackList.length;
+      this.rackQuantity = this.WHService.rackList.length;
       for (let index = 1; index <= this.rackQuantity; index++) {
         if (
           index - 1 ===
-            this.service.rackList.findIndex(
+            this.WHService.rackList.findIndex(
               x => x.id === this.service.formData.rack.id
             ) &&
-          this.service.columnList[j].id === this.service.formData.columnId
+          this.WHService.columnList[j].id === this.service.formData.columnId
         ) {
           this.ctx.fillStyle = '#222';
 
           for (let i = 0; i <= this.placeQuantity; i++) {
             if (
               i ===
-              this.service.placeList.findIndex(
+              this.WHService.placeList.findIndex(
                 x => x.id === this.service.formData.place.id
               )
             ) {
@@ -174,17 +177,17 @@ export class SchemaComponent implements OnInit {
         );
         if (
           index - 1 ===
-            this.service.rackList.findIndex(
+            this.WHService.rackList.findIndex(
               x => x.id === this.service.formData.rack.id
             ) &&
-          this.service.columnList[j].id === this.service.formData.columnId
+          this.WHService.columnList[j].id === this.service.formData.columnId
         ) {
           this.ctx.fillStyle = '#AD8762';
 
           for (let i = 0; i <= this.placeQuantity; i++) {
             if (
               i ===
-              this.service.placeList.findIndex(
+              this.WHService.placeList.findIndex(
                 x => x.id === this.service.formData.place.id
               )
             ) {
@@ -197,7 +200,7 @@ export class SchemaComponent implements OnInit {
                   j * rackHeight +
                   (i * rackHeight) / this.placeQuantity +
                   rackHeight / this.placeQuantity / 4;
-                this.drawbox(a, b, startX, startY, sideRackWidth);
+                this.drawBox(a, b, startX, startY, sideRackWidth);
               } else {
                 const startX =
                   rackWidth + sideRackWidth + sideRackWidth + sideRackWidth / 4;
@@ -206,7 +209,7 @@ export class SchemaComponent implements OnInit {
                   j * rackHeight +
                   (i * rackHeight) / this.placeQuantity +
                   rackHeight / this.placeQuantity / 4;
-                this.drawbox(a, b, startX, startY, sideRackWidth);
+                this.drawBox(a, b, startX, startY, sideRackWidth);
               }
             }
           }

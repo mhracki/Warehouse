@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemService } from 'src/app/shared/item.service';
 import { MatDialogRef } from '@angular/material';
-import { warehouse, column, room } from '../../shared/mock-warehouse';
 import { WarehouseService } from '../../shared/warehouse.service';
 
 
@@ -12,9 +11,6 @@ import { WarehouseService } from '../../shared/warehouse.service';
 })
 export class ItemComponent implements OnInit {
   title: string;
-  mockWar = warehouse;
-  mockCol = column;
-  mockRoom = room;
 
   constructor(
     private service: WarehouseService,

@@ -1,1 +1,137 @@
-<p>warehouse-management works!</p>
+<button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+    {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+  </button>
+  <mat-horizontal-stepper [linear]="isLinear" #stepper>
+    <mat-step >
+      <form #form="ngForm" *ngIf="service.warehouse" (submit)="onSubmitWarehouse()">
+        <ng-template matStepLabel>Magazyn</ng-template>
+        <mat-form-field>
+            <input
+            type="text"
+            required
+            #name="ngModel"
+            name="name"
+            matInput
+            placeholder="Warehouse Name"
+            [(ngModel)]="service.warehouse.name"
+          />
+        </mat-form-field>
+        <div>
+          <button mat-raised-button matStepperNext >Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step >
+      <form #form="ngForm" *ngIf="warehouse" (submit)="onSubmitRoom()">
+        <ng-template matStepLabel>Rooms</ng-template>
+        <div class="flex flex-wrap fd-column">
+            <mat-form-field *ngFor="let i of roomsCount " >
+                <input
+                type="text"
+                required
+                #room{{i.id}}="ngModel"
+                name="room{{i.id}}"
+                matInput
+                placeholder="Room Name"
+                [(ngModel)]="service.roomList[i.id].name"
+              />
+            
+            </mat-form-field>
+            <button type="button" class="mr5" color="primary"  mat-raised-button (click)="addRoom()" >Next Room</button>
+    
+        </div>
+        
+        <div class="flex">
+          <button  mat-raised-button  color="accent" matStepperPrevious>Back</button>
+          <span class="spacer"></span>
+          <button  type="submit" mat-raised-button color="primary" matStepperNext>Next Step</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step >
+      <form #form="ngForm" *ngIf="service.columnList.length" (submit)="onSubmitColumn()">
+        <ng-template matStepLabel>Columns</ng-template>
+        <div *ngFor="let j of roomList">
+            <label >{{j.name}}: </label>
+            <mat-form-field *ngFor="let i of j.columnCount" class="mr5">
+                <input
+                type="text"
+                required
+                #column{{j.name}}{{i}}="ngModel"
+                name="column{{j.name}}{{i}}"
+                matInput
+                placeholder="Column Name"
+                [(ngModel)]="service.columnList[i].name"
+              />
+           
+            </mat-form-field>
+            <button mat-raised-button class="mr5" color="primary" type="button" (click)="addColumn(j.id)" >Next Column</button>
+          </div>  
+        <div class="flex">
+          
+          <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+          <span class="spacer"></span>
+          <button mat-raised-button type="submit" color="primary" matStepperNext>Next Step</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step >
+        <form #form="ngForm" *ngIf="service.rackList.length" (submit)="onSubmitRack()">
+          <ng-template matStepLabel>Rows</ng-template>
+          <div *ngFor="let j of columnList">
+              <label >{{j.name}}: </label>
+              <div *ngFor="let i of j.rackCount" class="dis-block"> 
+                <mat-form-field class="mr5">
+                  <input
+                  type="text"
+                  required
+                  #rack{{j.name}}{{i}}="ngModel"
+                  name="rack{{j.name}}{{i}}"
+                  matInput
+                  placeholder="Rack Name"
+                  [(ngModel)]="service.rackList[i].name"
+                />
+                </mat-form-field>
+                <mat-form-field class="mr5" >
+                  <input
+                  type="number"
+                  required
+                  #{{j.name}}onRack{{i}}shelf="ngModel"
+                  name="{{j.name}}onRack{{i}}shelf"
+                  matInput
+                  placeholder="Shelf Quantity"
+                  [(ngModel)]="shelfQuantity[i].quantity"
+                />
+                </mat-form-field>
+                <mat-form-field class="mr5" >
+                  <input
+                  type="number"
+                  required
+                  #{{j.name}}onRack{{i}}place="ngModel"
+                  name="{{j.name}}onRack{{i}}place"
+                  matInput
+                  placeholder="Place Quantity"
+                  [(ngModel)]="placeQuantity[i]"
+                />
+                </mat-form-field >
+              </div>
+              
+              <button mat-raised-button class="mr5" color="primary" type="button" (click)="addRack(j.id)" >Next Rack</button>
+            </div>  
+          <div class="flex">
+            
+            <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+            <span class="spacer"></span>
+            <button mat-raised-button type="submit" color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      You are now done.
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
