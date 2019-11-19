@@ -131,7 +131,7 @@ export class WarehouseService {
     this.rackList.forEach(x=>{
       a.push(this.http.post<Rack>(`${this.rackUrl}/post`, {
         name: x.name,
-        columnId: x.columnID
+        columnsId: x.columnsId
       }));
     });
     return forkJoin(a);

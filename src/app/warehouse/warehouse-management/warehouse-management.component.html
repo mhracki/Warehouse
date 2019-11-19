@@ -24,25 +24,29 @@
     <mat-step >
       <form #form="ngForm" *ngIf="warehouse" (submit)="onSubmitRoom()">
         <ng-template matStepLabel>Rooms</ng-template>
-        <div class="flex flex-wrap fd-column">
-            <mat-form-field *ngFor="let i of roomsCount " >
-                <input
-                type="text"
-                required
-                #room{{i.id}}="ngModel"
-                name="room{{i.id}}"
-                matInput
-                placeholder="Room Name"
-                [(ngModel)]="service.roomList[i.id].name"
-              />
+        <div class="">
+          <div class="flex flex-wrap fd-column">
+              <mat-form-field *ngFor="let i of roomsCount " >
+                  <input
+                  type="text"
+                  required
+                  #room{{i.id}}="ngModel"
+                  name="room{{i.id}}"
+                  matInput
+                  placeholder="Room Name"
+                  [(ngModel)]="service.roomList[i.id].name"
+                />
+              
+              </mat-form-field>
+          </div>
             
-            </mat-form-field>
-            <button type="button" class="mr5" color="primary"  mat-raised-button (click)="addRoom()" >Next Room</button>
+            <button type="button" class="mr5" color="accent"  mat-raised-button (click)="addRoom()" >Next Room</button>
+            <button type="button" class="mr5" color="basic"  mat-raised-button (click)="subRoom()" >Subtract Room</button>
     
         </div>
         
         <div class="flex">
-          <button  mat-raised-button  color="accent" matStepperPrevious>Back</button>
+          <button  mat-raised-button  color="warn" matStepperPrevious>Back</button>
           <span class="spacer"></span>
           <button  type="submit" mat-raised-button color="primary" matStepperNext>Next Step</button>
         </div>
@@ -65,11 +69,13 @@
               />
            
             </mat-form-field>
-            <button mat-raised-button class="mr5" color="primary" type="button" (click)="addColumn(j.id)" >Next Column</button>
+            <button mat-raised-button class="mr5" color="accent" type="button" (click)="addColumn(j.id)" >Next Column</button>
+            <button type="button" class="mr5" color="basic"  mat-raised-button (click)="subColumn(j.id)" >Subtract Room</button>
+          
           </div>  
         <div class="flex">
           
-          <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+          <button mat-raised-button color="warn" matStepperPrevious>Back</button>
           <span class="spacer"></span>
           <button mat-raised-button type="submit" color="primary" matStepperNext>Next Step</button>
         </div>

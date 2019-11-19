@@ -214,7 +214,7 @@ export class ItemListComponent implements OnInit {
       rack: {
         id: '',
         name: '',
-        columnID: ''
+        columnsId: ''
       },
       sideId: '',
       side: {

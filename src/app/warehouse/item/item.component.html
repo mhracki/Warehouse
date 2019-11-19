@@ -37,7 +37,7 @@
       <mat-form-field class="example-form-field ">
           <mat-label>Magazyn</mat-label>
           <mat-select   #warehouseId="ngModel" name="warehouseId"   [(ngModel)]="itemService.formData.warehouseId">
-            <mat-option *ngFor="let item of service.warehouseList" (click)="getRoom(item.id); test(item)" [value]="item.id">{{item.name}}</mat-option>
+            <mat-option *ngFor="let item of service.warehouseList" (click)="getRoom(item.id)" [value]="item.id">{{item.name}}</mat-option>
           </mat-select>
       </mat-form-field>
     </div>

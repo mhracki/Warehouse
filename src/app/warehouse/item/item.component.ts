@@ -95,7 +95,7 @@ export class ItemComponent implements OnInit {
       rack: {
         id: '',
         name: '',
-        columnID: ''
+        columnsId: ''
       },
       sideId: '',
       side: {

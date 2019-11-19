@@ -25,7 +25,7 @@ export class WarehouseManagementComponent implements OnInit {
   placeQuantity: number[] = [];
   warehouse: Warehouse;
   roomList: RoomList[];
-  columnList: ColumnList[];
+  columnList: ColumnList[] = [];
   rackList: RackList[];
   sideList: Side[];
   shelfList: Shelf[];
@@ -64,13 +64,25 @@ export class WarehouseManagementComponent implements OnInit {
   async onSubmitColumn() {
 
     this.service.postColumn().pipe(
-      map(x => this.columnList = x),
-      finalize(() => this.initializeRack())).subscribe();
+      map(x => this.columnList = x
+
+      ),
+      finalize(() => {
+        let b:any[]=[];
+        this.roomList.forEach((y) => b.push((this.columnList.filter(z => z.roomId === y.id))));
+        this.columnList = b.reduce((acc,val)=>acc.concat(val),[]);
+        this.initializeRack();
+      }
+
+      )).subscribe();
   }
   async onSubmitRack() {
 
     this.service.postRack().pipe(
-      map(x => this.rackList = x),
+      map(x => {
+      this.rackList = x
+        console.log(x, "x")
+      }),
       finalize(() => {
         console.log(this.rackList, 'racklist');
         console.log(this.shelfQuantity, 'shelf quantity');
@@ -92,22 +104,21 @@ export class WarehouseManagementComponent implements OnInit {
         this.service.postSide().pipe(
           map(x => this.sideList = x),
           finalize(() => {
-            this.sideList.forEach((x, j) => {
-              for (let index = 0; index < (this.shelfQuantity.find(y => y.parentId === x.rackId).quantity); index++) {
+            this.sideList.forEach(x => {
+              Array(this.shelfQuantity.find(y => y.parentId === x.rackId).quantity).map(z => {
                 this.service.shelfList.push({
                   id: '',
-                  name: index.toString(),
+                  name: z.toString(),
                   sideId: x.id,
                 });
-                this.placeQuantity.forEach(z => {
-                  console.log(z, "z");
-
+                this.placeQuantity.forEach(i => {
+                  console.log(i, "z");
                   this.placeListQuantity.push({
-                    quantity: z,
+                    quantity: i,
                     parentId: x.id
                   });
                 });
-              }
+              })
 
             });
             this.service.postShelf().pipe(
@@ -174,8 +185,11 @@ export class WarehouseManagementComponent implements OnInit {
         this.service.rackList.push({
           id: '',
           name: '',
-          columnID: x.id
+          columnsId: x.id
         });
+        console.log(x.id, "x.id");
+        console.log(this.service.rackList);
+
         this.rackCounter++;
         x.rackCount = [index];
         this.shelfQuantity.push({
@@ -190,13 +204,14 @@ export class WarehouseManagementComponent implements OnInit {
       this.service.rackList.push({
         id: '',
         name: '',
-        columnID: columnId
+        columnsId: columnId
       });
       this.shelfQuantity.push({
         quantity: 2,
         parentId: '',
       });
       this.placeQuantity.push(5);
+      console.log(this.service.rackList);
     }
     console.log('kupa', this.service.rackList);
   }
@@ -213,6 +228,11 @@ export class WarehouseManagementComponent implements OnInit {
 
 
   }
+  subRoom(){
+    this.roomsCount.pop();
+    this.service.roomList.pop();
+    console.log(this.service.roomList);
+  }
   addColumn(roomId) {
     const room = this.roomList.find(x => x.id === roomId);
     if (room.columnCount) {
@@ -221,9 +241,22 @@ export class WarehouseManagementComponent implements OnInit {
     this.columnCounter++;
     this.initializeColumn(roomId);
     this.columnCount.push({ id: this.columnCounter });
-    console.log(this.roomList);
-    console.log(this.columnCounter);
-    console.log(this.service.columnList[this.columnCounter]);
+    console.log(this.service.columnList,"service.columnlist");
+    console.log(this.columnCount,"columnCount");
+  }
+  subColumn(roomId){
+    const room = this.roomList.find(x => x.id === roomId);
+    if (room.columnCount) {
+      (room.columnCount).pop();
+      console.log(room.columnCount,"room");
+    }
+    console.log(this.service.columnList,"service.columnlist","przed");
+    console.log(this.columnCount,"columnCount","przed");
+    this.columnCounter--;
+    this.service.columnList.pop();
+    this.columnCount.pop();
+    console.log(this.service.columnList,"service.columnlist","po");
+    console.log(this.columnCount,"columnCount","po");
   }
   addRack(columnId) {
     const column = this.columnList.find(x => x.id === columnId);
@@ -239,4 +272,6 @@ export class WarehouseManagementComponent implements OnInit {
     console.log(this.columnCounter);
     console.log(this.service.rackList[this.rackCounter]);
   }
+
+
 }
