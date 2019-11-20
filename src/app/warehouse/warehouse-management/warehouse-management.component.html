@@ -17,16 +17,16 @@
           />
         </mat-form-field>
         <div>
-          <button mat-raised-button matStepperNext >Next</button>
+          <button mat-raised-button color="primary" matStepperNext >Next</button>
         </div>
       </form>
     </mat-step>
     <mat-step >
       <form #form="ngForm" *ngIf="warehouse" (submit)="onSubmitRoom()">
         <ng-template matStepLabel>Rooms</ng-template>
-        <div class="">
+        <div class="" *ngFor="let i of roomsCount ">
           <div class="flex flex-wrap fd-column">
-              <mat-form-field *ngFor="let i of roomsCount " >
+              <mat-form-field >
                   <input
                   type="text"
                   required
@@ -41,12 +41,12 @@
           </div>
             
             <button type="button" class="mr5" color="accent"  mat-raised-button (click)="addRoom()" >Next Room</button>
-            <button type="button" class="mr5" color="basic"  mat-raised-button (click)="subRoom()" >Subtract Room</button>
+            <button *ngIf="i.id+1===roomsCount.length&&counter>=1" type="button" class="mr5" color="basic"  mat-raised-button (click)="subRoom(i.id)" >Subtract Room</button>
     
         </div>
         
         <div class="flex">
-          <button  mat-raised-button  color="warn" matStepperPrevious>Back</button>
+          <button  mat-raised-button  color="warn" (click)="backToWarehouse()" matStepperPrevious>Back</button>
           <span class="spacer"></span>
           <button  type="submit" mat-raised-button color="primary" matStepperNext>Next Step</button>
         </div>
@@ -57,7 +57,8 @@
         <ng-template matStepLabel>Columns</ng-template>
         <div *ngFor="let j of roomList">
             <label >{{j.name}}: </label>
-            <mat-form-field *ngFor="let i of j.columnCount" class="mr5">
+            <div *ngFor="let i of j.columnCount">
+              <mat-form-field  class="mr5">
                 <input
                 type="text"
                 required
@@ -67,15 +68,14 @@
                 placeholder="Column Name"
                 [(ngModel)]="service.columnList[i].name"
               />
-           
-            </mat-form-field>
-            <button mat-raised-button class="mr5" color="accent" type="button" (click)="addColumn(j.id)" >Next Column</button>
-            <button type="button" class="mr5" color="basic"  mat-raised-button (click)="subColumn(j.id)" >Subtract Room</button>
-          
+              </mat-form-field>
+              <button mat-raised-button class="mr5" color="accent" type="button" (click)="addColumn(j.id)" >Next Column</button>
+              <button *ngIf="i>=roomList.length&&i===j.columnCount[j.columnCount.length-1]" type="button" class="mr5" color="basic"  mat-raised-button (click)="subColumn(j.id, service.columnList[i].id)" >Subtract Column</button>
+            </div>
           </div>  
         <div class="flex">
           
-          <button mat-raised-button color="warn" matStepperPrevious>Back</button>
+          <button mat-raised-button color="warn" (click)="backToRoom()" matStepperPrevious>Back</button>
           <span class="spacer"></span>
           <button mat-raised-button type="submit" color="primary" matStepperNext>Next Step</button>
         </div>
@@ -120,24 +120,18 @@
                   [(ngModel)]="placeQuantity[i]"
                 />
                 </mat-form-field >
-              </div>
-              
-              <button mat-raised-button class="mr5" color="primary" type="button" (click)="addRack(j.id)" >Next Rack</button>
+                 
+              <button mat-raised-button class="mr5" color="accent" type="button" (click)="addRack(j.id)" >Next Rack</button>
+              <button *ngIf="i>=columnList.length&&i===j.rackCount[j.rackCount.length-1]" mat-raised-button class="mr5" color="basic" type="button" (click)="subRack(j.id)" >Subtract Rack</button>
+            </div>
+             
             </div>  
           <div class="flex">
             
-            <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+            <button mat-raised-button color="warn" (click)="backToColumn()" matStepperPrevious>Back</button>
             <span class="spacer"></span>
-            <button mat-raised-button type="submit" color="primary" matStepperNext>Next</button>
+            <button mat-raised-button type="submit" color="primary" matStepperNext> Submit All </button>
           </div>
         </form>
       </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
-      You are now done.
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
-      </div>
-    </mat-step>
-  </mat-horizontal-stepper>
+</mat-horizontal-stepper>

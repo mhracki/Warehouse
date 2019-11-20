@@ -73,19 +73,26 @@ export class WarehouseService {
   }
 
 
-  postRoom(): Observable<any[]>{
-    let a =[];
-    this.roomList.forEach(x=>{
+  postRoom(addedRoom?: Room[]): Observable<Room[]> {
+    const a = [];
+    (addedRoom || this.roomList).forEach(x => {
       a.push(this.http.post<Room>(`${this.roomUrl}/post`, {
         name: x.name,
-        warehouseId:x.warehouseId
+        warehouseId: x.warehouseId
       }));
-    })
+    });
     return forkJoin(a);
   }
 
-  editRoom(room: Room) {
-    return this.http.put(`${this.roomUrl}/put/${room.id}`, room);
+  editRoom(roomList: Room[]): Observable<any[]> {
+    const a = [];
+    roomList.forEach(x => {
+      a.push(this.http.put<Room>(`${this.roomUrl}/put/${x.id}`, {
+        name: x.name,
+        warehouseId: x.warehouseId
+      }));
+    });
+    return forkJoin(a);
   }
   deleteRoom(id) {
     console.log(id);
@@ -99,21 +106,29 @@ export class WarehouseService {
       .toPromise()
       .then(res => (this.columnList = res as Column[]));
   }
- 
-  postColumn(): Observable<any[]>{
-    let a =[];
-    this.columnList.forEach(x=>{
+
+  postColumn(addedColumn?: Column[]): Observable<Column[]> {
+    const a = [];
+    (addedColumn || this.columnList).forEach(x => {
       a.push(this.http.post<Column>(`${this.columnUrl}/post`, {
         name: x.name,
-        roomId:x.roomId
+        roomId: x.roomId
       }));
-    })
+    });
     return forkJoin(a);
   }
 
-  editColumn(column: Column) {
-    return this.http.put(`${this.columnUrl}/put/${column.id}`, column);
+    editColumn(columnList: Column[]): Observable<Column[]> {
+    const a = [];
+    columnList.forEach(x => {
+      a.push(this.http.put<Column>(`${this.columnUrl}/put/${x.id}`, {
+        name: x.name,
+        roomId: x.roomId
+      }));
+    });
+    return forkJoin(a);
   }
+
   deleteColumn(id) {
     console.log(id);
     return this.http.delete(`${this.columnUrl}/delete/${id}`).toPromise();
@@ -126,9 +141,9 @@ export class WarehouseService {
       .toPromise()
       .then(res => (this.rackList = res as Rack[]));
   }
-  postRack(): Observable<any[]>{
-    let a =[];
-    this.rackList.forEach(x=>{
+  postRack(): Observable<any[]> {
+    const a = [];
+    this.rackList.forEach(x => {
       a.push(this.http.post<Rack>(`${this.rackUrl}/post`, {
         name: x.name,
         columnsId: x.columnsId
@@ -152,14 +167,14 @@ export class WarehouseService {
       .then(res => (this.sideList = res as Side[]));
   }
 
-  postSide(): Observable<any[]>{
-    let a =[];
-    this.sideList.forEach(x=>{
+  postSide(): Observable<any[]> {
+    const a = [];
+    this.sideList.forEach(x => {
       a.push(this.http.post<Side>(`${this.sideUrl}/post`, {
         name: x.name,
-        rackId:x.rackId,
+        rackId: x.rackId,
       }));
-    })
+    });
     return forkJoin(a);
   }
   editSide(side: Side) {
@@ -181,14 +196,14 @@ export class WarehouseService {
     delete this.shelf.id;
     return this.http.post(`${this.shelfUrl}/post`, this.shelf);
   }
-  postShelf(): Observable<any[]>{
-    let a =[];
-    this.shelfList.forEach(x=>{
+  postShelf(): Observable<any[]> {
+    const a = [];
+    this.shelfList.forEach(x => {
       a.push(this.http.post<Shelf>(`${this.shelfUrl}/post`, {
         name: x.name,
         sideId: x.sideId
       }));
-    })
+    });
     return forkJoin(a);
   }
   editShelf(shelf: Shelf) {
@@ -206,14 +221,14 @@ export class WarehouseService {
       .toPromise()
       .then(res => (this.placeList = res as Place[]));
   }
-  postPlace(): Observable<any[]>{
-    let a =[];
-    this.placeList.forEach(x=>{
+  postPlace(): Observable<any[]> {
+    const a = [];
+    this.placeList.forEach(x => {
       a.push(this.http.post<Place>(`${this.placeUrl}/post`, {
         name: x.name,
         shelfId: x.shelfId
       }));
-    })
+    });
     return forkJoin(a);
   }
   editPlace(place: Place) {

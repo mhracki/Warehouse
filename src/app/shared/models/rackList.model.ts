@@ -1,6 +1,6 @@
 export class RackList {
     id: string;
     name: string;
-    warehouseId: string;
+    columnId: string;
     shelfCount: number[];
 }
