@@ -21,7 +21,7 @@ export class WarehouseManagementComponent implements OnInit {
   counter = 0;
   columnCounter = 0;
   rackCounter = 0;
-  warehousePath: string[];
+  warehousePath: string[] = [];
   shelfQuantity: ChildQuantity[] = [];
   placeListQuantity: ChildQuantity[] = [];
   placeQuantity: number[] = [];
@@ -79,10 +79,10 @@ export class WarehouseManagementComponent implements OnInit {
           this.service.postRoom(postList).pipe(
             map(y => {
               this.roomList.push(...y as any);
-              console.log(this.roomList, "rumlist");
+              console.log(this.roomList, 'rumlist');
             }),
             finalize(() => {
-              console.log(this.roomList);
+              this.roomList.map(x =>  x.parentName = this.warehouse.name );
               this.initializeColumn();
             })
           ).subscribe();
@@ -94,9 +94,14 @@ export class WarehouseManagementComponent implements OnInit {
     } else {
       this.service.postRoom().pipe(
         map(x => this.roomList = x as any),
-        finalize(() => this.initializeColumn())).subscribe();
+        finalize(() => {
+          this.roomList.map(x =>  x.parentName = this.warehouse.name );
+          this.initializeColumn(); }
+          )).subscribe();
     }
-    console.log(this.service.roomList, "rum");
+    console.log(this.service.roomList, 'rum');
+    console.log(this.roomList, 'rum komponent');
+
 
   }
   async onSubmitColumn() {
@@ -112,14 +117,15 @@ export class WarehouseManagementComponent implements OnInit {
           this.service.postColumn(postList).pipe(
             map(y => {
               this.columnList.push(...y as any);
-              console.log(this.columnList, "rumlist");
+              console.log(this.columnList, 'rumlist');
             }),
             finalize(() => {
               const b: any[] = [];
-              console.log("dupa");
-              
+              console.log('dupa');
               this.roomList.forEach((y) => b.push((this.columnList.filter(z => z.roomId === y.id))));
               this.columnList = b.reduce((acc, val) => acc.concat(val), []);
+              this.columnList.map( x => x.parentPath = `${this.roomList.find(y => x.roomId === y.id ).parentName}/
+              ${this.roomList.find(y => x.roomId === y.id ).name}`);
               this.initializeRack();
             })
           ).subscribe();
@@ -131,10 +137,12 @@ export class WarehouseManagementComponent implements OnInit {
         map(x => this.columnList = x as any),
         finalize(() => {
           const b: any[] = [];
-          console.log("kupa");
-          
+          console.log('kupa');
+
           this.roomList.forEach((y) => b.push((this.columnList.filter(z => z.roomId === y.id))));
           this.columnList = b.reduce((acc, val) => acc.concat(val), []);
+          this.columnList.map( x => x.parentPath = `${this.roomList.find(y => x.roomId === y.id ).parentName}
+          /${this.roomList.find(y => x.roomId === y.id ).name}`);
           this.initializeRack();
         }
 
@@ -161,6 +169,8 @@ export class WarehouseManagementComponent implements OnInit {
           });
           this.shelfQuantity[index].parentId = x.id;
         });
+        console.log("rack");
+        
         this.service.postSide().pipe(
           map(x => this.sideList = x),
           finalize(() => {
@@ -180,9 +190,17 @@ export class WarehouseManagementComponent implements OnInit {
               });
 
             });
+            console.log("side");
+            
             this.service.postShelf().pipe(
-              map(x => this.shelfList = x),
+              map(x => {this.shelfList = x;
+                console.log(x);
+                
+              }
+                ),
               finalize(() => {
+                console.log(this.shelfList,"shelflist");
+                
                 this.shelfList.forEach(x => {
                   for (let index = 0; index < (this.placeListQuantity.find(y => y.parentId === x.sideId).quantity); index++) {
                     this.service.placeList.push({
@@ -193,11 +211,14 @@ export class WarehouseManagementComponent implements OnInit {
 
                   }
                 });
+                console.log("shelf");
+                
                 this.service.postPlace().pipe(
                   map(x => console.log(x))).subscribe();
               }
 
-              )).subscribe();
+              )).subscribe(res=> console.log(res)
+              );
 
           }
           )
@@ -215,7 +236,7 @@ export class WarehouseManagementComponent implements OnInit {
     this.service.roomList[this.counter] = {
       id: '',
       name: '',
-      warehouseId: this.warehouse.id
+      warehouseId: this.warehouse.id,
     };
   }
   initializeColumn(roomId?: string) {
@@ -242,7 +263,11 @@ export class WarehouseManagementComponent implements OnInit {
       console.log('else');
 
     }
-    console.log(this.service.columnList, 'columnlist');
+    console.log(this.service.columnList, 'service.columnlist');
+    console.log(this.columnList, 'columnlist');
+    console.log(this.columnCounter, 'columnCounter');
+
+
 
   }
   initializeRack(columnId?: string) {
@@ -283,15 +308,20 @@ export class WarehouseManagementComponent implements OnInit {
     this.service.roomList.forEach((x, index) =>
       x.id = this.roomList[index].id
     );
+    if (this.putColumn) {
+      this.service.columnList.forEach(x =>
+        this.service.deleteColumn(x.id))
+    }
     this.service.columnList = [];
     this.columnCounter = 0;
+    
   }
   backToColumn() {
     this.putColumn = true;
     this.service.columnList.forEach((x, index) =>
       x.id = this.columnList[index].id);
     this.service.rackList = [];
-    this.columnCounter = 0;
+    this.rackCounter = 0;
   }
   addRoom() {
     this.counter++;
@@ -305,7 +335,7 @@ export class WarehouseManagementComponent implements OnInit {
     this.roomsCount.pop();
     this.service.roomList.pop();
     if (this.putRoom && roomId !== '') {
-      this.service.deleteRoom(this.roomList[roomId].id).then(res => console.log(res))
+      this.service.deleteRoom(this.roomList[roomId].id).then(res => console.log(res));
     }
   }
   addColumn(roomId) {
@@ -317,7 +347,7 @@ export class WarehouseManagementComponent implements OnInit {
     this.initializeColumn(roomId);
   }
   subColumn(roomId, columnId) {
-    console.log(columnId, "columnID")
+    console.log(columnId, 'columnID');
     let a;
     const room = this.roomList.find(x => x.id === roomId);
     if (room.columnCount) {
@@ -334,7 +364,7 @@ export class WarehouseManagementComponent implements OnInit {
     this.service.columnList.splice(indexToDelete, 1);
     this.service.columnList.reverse();
     if (this.putColumn && columnId !== '') {
-      this.service.deleteRoom(columnId).then(res => console.log(res))
+      this.service.deleteColumn(columnId).then(res => console.log(res));
     }
   }
 

@@ -3,4 +3,5 @@ export class ColumnList {
     name: string;
     roomId: string;
     rackCount: number[];
+    parentPath: string;
 }

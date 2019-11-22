@@ -3,4 +3,5 @@ export class RoomList {
     name: string;
     warehouseId: string;
     columnCount: number[];
+    parentName: string;
 }

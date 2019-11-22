@@ -56,7 +56,7 @@
       <form #form="ngForm" *ngIf="service.columnList.length" (submit)="onSubmitColumn()">
         <ng-template matStepLabel>Columns</ng-template>
         <div *ngFor="let j of roomList">
-            <label >{{j.name}}: </label>
+            <label >Path://{{j.parentName}}/{{j.name}}: </label>
             <div *ngFor="let i of j.columnCount">
               <mat-form-field  class="mr5">
                 <input
@@ -85,7 +85,7 @@
         <form #form="ngForm" *ngIf="service.rackList.length" (submit)="onSubmitRack()">
           <ng-template matStepLabel>Rows</ng-template>
           <div *ngFor="let j of columnList">
-              <label >{{j.name}}: </label>
+              <label >Path://{{j.parentPath}}/{{j.name}}: </label>
               <div *ngFor="let i of j.rackCount" class="dis-block"> 
                 <mat-form-field class="mr5">
                   <input

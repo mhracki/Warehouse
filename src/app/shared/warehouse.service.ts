@@ -130,7 +130,7 @@ export class WarehouseService {
   }
 
   deleteColumn(id) {
-    console.log(id);
+    console.log('usunieto',id);
     return this.http.delete(`${this.columnUrl}/delete/${id}`).toPromise();
   }
 
@@ -223,11 +223,13 @@ export class WarehouseService {
   }
   postPlace(): Observable<any[]> {
     const a = [];
-    this.placeList.forEach(x => {
+    this.placeList.forEach((x,index) => {
       a.push(this.http.post<Place>(`${this.placeUrl}/post`, {
         name: x.name,
         shelfId: x.shelfId
       }));
+   // console.log("place:",x.name,'index',index);
+    
     });
     return forkJoin(a);
   }
