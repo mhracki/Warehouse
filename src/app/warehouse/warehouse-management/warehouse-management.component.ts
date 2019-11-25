@@ -40,7 +40,27 @@ export class WarehouseManagementComponent implements OnInit {
   rackCount: Array<any> = [{
     id: this.counter,
   }];
-  constructor(private service: WarehouseService) { }
+
+  buffer:number;
+  bufferValue:number;
+
+  loading:boolean;
+  loadingValue:number;
+
+  allTime:number;
+  
+  constructor(private service: WarehouseService) {
+    this.service.isLoading.subscribe(v =>{
+      console.log(v);
+      this.loading=v;      
+    });
+    this.service.loadingValue.subscribe(v=>{
+      this.loadingValue = v
+    });
+    this.service.bufferValue.subscribe(v=>{
+      this.bufferValue = v
+    });
+   }
 
   ngOnInit() {
 
@@ -48,7 +68,7 @@ export class WarehouseManagementComponent implements OnInit {
     this.putWarehouse = false;
     this.putRoom = false;
     this.putColumn = false;
-
+ 
   }
 
 
@@ -61,8 +81,15 @@ export class WarehouseManagementComponent implements OnInit {
 
     }
 
+    this.allTime= 4;
+    this.buffer =1;
+
   }
   async onSubmitRoom() {
+    this.allTime = this.service.roomList.length*4;
+    this.buffer = this.service.roomList.length;
+
+     
     if (this.putRoom) {
       console.log(this.service.roomList);
       const putList: Room[] = [];
@@ -102,9 +129,12 @@ export class WarehouseManagementComponent implements OnInit {
     console.log(this.service.roomList, 'rum');
     console.log(this.roomList, 'rum komponent');
 
-
   }
   async onSubmitColumn() {
+    this.allTime = this.service.columnList.length*4;
+    this.buffer = this.service.columnList.length;
+    
+
     if (this.putColumn) {
       const putList: Column[] = [];
       const postList: Column[] = [];
@@ -149,8 +179,14 @@ export class WarehouseManagementComponent implements OnInit {
         )).subscribe();
     }
   }
-  async onSubmitRack() {
-
+  async onSubmitRack()
+   {
+    this.allTime = 0;
+    console.log(this.placeQuantity,"placek",this.shelfQuantity,"szelf");
+    
+    this.service.rackList.map((x,i) => this.allTime+= (this.placeQuantity[i]*this.shelfQuantity[i].quantity)*2*4)
+    this.buffer = this.allTime/4;
+    
     this.service.postRack().pipe(
       map(x => {
         this.rackList = x;
@@ -175,10 +211,11 @@ export class WarehouseManagementComponent implements OnInit {
           map(x => this.sideList = x),
           finalize(() => {
             this.sideList.forEach(x => {
-              Array(this.shelfQuantity.find(y => y.parentId === x.rackId).quantity).map(z => {
+              for (let index = 0; index < (this.shelfQuantity.find(y => y.parentId === x.rackId).quantity); index++) {
+
                 this.service.shelfList.push({
                   id: '',
-                  name: z.toString(),
+                  name: index.toString(),
                   sideId: x.id,
                 });
                 this.placeQuantity.forEach(i => {
@@ -187,10 +224,11 @@ export class WarehouseManagementComponent implements OnInit {
                     parentId: x.id
                   });
                 });
-              });
+              };
 
             });
             console.log("side");
+            console.log(this.service.shelfList,"service.shelflist");
             
             this.service.postShelf().pipe(
               map(x => {this.shelfList = x;
@@ -212,9 +250,14 @@ export class WarehouseManagementComponent implements OnInit {
                   }
                 });
                 console.log("shelf");
+    this.service.allTime= this.service.placeList.length;
                 
                 this.service.postPlace().pipe(
-                  map(x => console.log(x))).subscribe();
+                  map(x => console.log(x),finalize(()=>{
+                    this.service.placeList.forEach(x => {
+                     
+                    })
+                  }))).subscribe();
               }
 
               )).subscribe(res=> console.log(res)
@@ -399,5 +442,10 @@ export class WarehouseManagementComponent implements OnInit {
     this.service.rackList.reverse();
   }
 
+ progress(){
 
+    
+   
+
+ }
 }

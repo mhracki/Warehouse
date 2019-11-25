@@ -9,7 +9,7 @@ import { Side } from './models/side.model';
 import { Shelf } from './models/shelf.model';
 import { Place } from './models/place.model';
 import { TempCRUD } from './models/tempCRUD.model';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
@@ -41,8 +41,15 @@ export class WarehouseService {
   shelfUrl = `${environment.apiWarehouseURL}/shelf`;
   placeUrl = `${environment.apiWarehouseURL}/place`;
 
+  public isLoading = new BehaviorSubject(false);
+  public loadingValue = new BehaviorSubject(0);
+  public bufferValue =  new BehaviorSubject(0);
 
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient) {
+
+
+  }
 
   // Warehouse CRUD
   async getWarehouseList() {
@@ -228,7 +235,7 @@ export class WarehouseService {
         name: x.name,
         shelfId: x.shelfId
       }));
-   // console.log("place:",x.name,'index',index);
+    console.log("place:",x.name,'index',index);
     
     });
     return forkJoin(a);

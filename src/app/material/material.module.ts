@@ -19,7 +19,11 @@ import * as Material from '@angular/material';
     Material.MatSortModule,
     Material.MatDialogModule,
     Material.MatSelectModule,
-    Material.MatStepperModule
+    Material.MatStepperModule,
+    Material.MatProgressBarModule,
+    Material.MatCardModule,
+    Material.MatSliderModule,
+    Material.MatRadioModule,
 
   ],
   exports: [
@@ -34,7 +38,15 @@ import * as Material from '@angular/material';
     Material.MatSortModule,
     Material.MatDialogModule,
     Material.MatSelectModule,
-    Material.MatStepperModule
+    Material.MatStepperModule,
+    Material.MatProgressBarModule,
+    Material.MatCardModule,
+    Material.MatSliderModule,
+    Material.MatRadioModule,
+
+
+
+
 
 
 

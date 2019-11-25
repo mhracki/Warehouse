@@ -1,6 +1,24 @@
 <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
     {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
   </button>
+  <div [hidden]="!loading">
+    <mat-card >
+      <mat-card-content>
+        <h2 class="example-h2">Result</h2>
+    
+        <section class="example-section" >
+          <mat-progress-bar
+              class="example-margin"
+              [color]="primary"
+              mode="buffer"
+              [value]="(loadingValue/allTime)*100"
+              [bufferValue]="(bufferValue/buffer)*100">
+          </mat-progress-bar>
+        </section>
+      </mat-card-content>
+    </mat-card>
+  
+  </div>
   <mat-horizontal-stepper [linear]="isLinear" #stepper>
     <mat-step >
       <form #form="ngForm" *ngIf="service.warehouse" (submit)="onSubmitWarehouse()">
@@ -17,7 +35,7 @@
           />
         </mat-form-field>
         <div>
-          <button mat-raised-button color="primary" matStepperNext >Next</button>
+          <button mat-raised-button color="primary" matStepperNext (click)="progress()" >Next</button>
         </div>
       </form>
     </mat-step>
@@ -48,7 +66,7 @@
         <div class="flex">
           <button  mat-raised-button  color="warn" (click)="backToWarehouse()" matStepperPrevious>Back</button>
           <span class="spacer"></span>
-          <button  type="submit" mat-raised-button color="primary" matStepperNext>Next Step</button>
+          <button  type="submit" mat-raised-button color="primary" (click)="progress()" matStepperNext>Next Step</button>
         </div>
       </form>
     </mat-step>
@@ -77,7 +95,7 @@
           
           <button mat-raised-button color="warn" (click)="backToRoom()" matStepperPrevious>Back</button>
           <span class="spacer"></span>
-          <button mat-raised-button type="submit" color="primary" matStepperNext>Next Step</button>
+          <button mat-raised-button type="submit" (click)="progress()" color="primary" matStepperNext>Next Step</button>
         </div>
       </form>
     </mat-step>
@@ -126,12 +144,14 @@
             </div>
              
             </div>  
+            {{service.bufferValue}}
           <div class="flex">
             
             <button mat-raised-button color="warn" (click)="backToColumn()" matStepperPrevious>Back</button>
             <span class="spacer"></span>
-            <button mat-raised-button type="submit" color="primary" matStepperNext> Submit All </button>
+            <button mat-raised-button type="submit" color="primary" (click)="progress()" matStepperNext> Submit All </button>
           </div>
         </form>
       </mat-step>
 </mat-horizontal-stepper>
+

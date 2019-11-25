@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -16,6 +16,8 @@ import { ItemListComponent } from './warehouse/item-list/item-list.component';
 import { ItemService } from './shared/item.service';
 import { SchemaComponent } from './warehouse/schema/schema.component';
 import { WarehouseManagementComponent } from './warehouse/warehouse-management/warehouse-management.component';
+import { WarehouseService } from './shared/warehouse.service';
+import { WarehouseInterceptor } from './shared/http_interceptor/warehouse.interceptor';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,12 @@ import { WarehouseManagementComponent } from './warehouse/warehouse-management/w
     HttpClientModule,
     LayoutModule
   ],
-  providers: [LoginService, ItemService],
+  providers: [
+    LoginService,
+    ItemService,
+    WarehouseService,
+    {provide: HTTP_INTERCEPTORS, useClass: WarehouseInterceptor , multi: true}
+  ],
   bootstrap: [AppComponent],
   entryComponents: [ItemComponent]
 })
